@@ -1,0 +1,10 @@
+<div class="row">
+  <form>
+    <div class="col-12">
+      <div class="form_group">
+        <label class="form_label labelSearch" for="search">{{!expiredToken ? 'Digite seu token...' : 'Sua sessão expirou, digite um novo token ...'}}</label><br>
+        <input (keyup.enter)="login()" [formControl]="myControl" class="form_field inputSearch" type="text" id="search" name="token"><br>
+      </div>
+    </div>
+  </form>
+</div>

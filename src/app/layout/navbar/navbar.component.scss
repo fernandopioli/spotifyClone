@@ -1,0 +1,23 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+}
+.profile-image{
+  height: 45px;
+  border-radius: 50%;
+}
+
+.profile-image:hover ~.text {
+  opacity:1;
+}
+.text {
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 5%;
+  right: 10%;
+  transition: .5s ease;
+  opacity:0;
+  text-align: center;
+}

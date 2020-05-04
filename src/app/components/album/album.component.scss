@@ -1,0 +1,43 @@
+.album-div{
+  display: flex;
+  justify-content: space-between;
+}
+
+.album-image{
+  height: 160px;
+  width: 160px;
+  padding: 0;
+  //margin: 7px;
+}
+
+.col-2-5 {width: calc(20% - 18px);}
+.col-6-5 {width: calc(50% - 18px);}
+
+@media only screen and (min-width: 992px) {
+  .col-lg-2-5 {width: calc(20% - 18px);}
+  .col-lg-6-5 {width: calc(50% - 18px);}
+}
+.paddingTextAlbum{
+  padding-left: 0;
+  padding-right: 0;
+  font-size:14px;
+}
+@media only screen and (min-width: 477px) and (max-width: 565px) {
+  .paddingTextAlbum{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media only screen and (min-width: 566px) and (max-width: 992px) {
+  .paddingTextAlbum{
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+@media only screen and (min-width: 993px) {
+  .paddingTextAlbum{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

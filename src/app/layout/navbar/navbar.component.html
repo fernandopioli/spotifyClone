@@ -1,0 +1,10 @@
+<div class="navbar">
+  <div>
+    <img src="assets/images/spotify-logo.png" alt="Logo do Spotify" class="profile-image">
+  </div>
+  <div class="container">
+      <img [src]="myUser.images?.length > 0 ? myUser.images[0].url : 'assets/images/profile-image.png'" alt="Imagem de perfil do Spotify" class="profile-image">
+      <div class="text">Bem vindo {{myUser.display_name}}</div>
+  </div>
+</div>
+

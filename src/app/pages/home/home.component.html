@@ -1,0 +1,8 @@
+<app-navbar></app-navbar>
+<div class="row center">
+  <div class="col-12 col-md-10" style="padding: 0">
+  <app-search (respostaFamilia)="setAlbuns($event)"></app-search>
+  <app-show-albuns [albums]="nAlbums"></app-show-albuns>
+  </div>
+</div>
+
