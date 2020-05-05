@@ -14,6 +14,7 @@ export class SearchComponent implements OnInit {
 
   myControl = new FormControl();
   @Output() respostaFamilia: any = new EventEmitter();
+  @Output() nSearch: EventEmitter<boolean> = new EventEmitter();
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -25,10 +26,14 @@ export class SearchComponent implements OnInit {
             .subscribe(
               (res: SearchModelModel) => {
                 this.respostaFamilia.emit(res.albums.items);
+                res.albums.items.length > 0 ? this.nSearch.emit(true) : this.nSearch.emit(false);
               },
               error => {
                 alert('Houve um erro ao carregar os álbuns!');
               });
+        }else{
+          this.respostaFamilia.emit([]);
+          this.nSearch.emit(false);
         }
       }
       );

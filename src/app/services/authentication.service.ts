@@ -5,7 +5,9 @@ import {UserModel} from '../models/user.model';
 import {map} from 'rxjs/operators';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<UserModel>;
   public currentUser: Observable<UserModel>;
@@ -35,17 +37,4 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
-
-  /* refresh_token() {
-    return this.http.post('https://accounts.spotify.com/api/token',
-      { grant_type: 'refresh_token', refresh_token: JSON.parse(localStorage.getItem('refresh_token'))})
-      .pipe(
-        map((data: any) => {
-          console.log(data);
-          localStorage.setItem('token', JSON.stringify(data.access_token));
-          localStorage.setItem('refresh_token', JSON.stringify(data.refresh_token));
-          this.currentUserSubject.next(data);
-          return data;
-        }));
-  }*/
 }

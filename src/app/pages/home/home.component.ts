@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
   nAlbums: AlbumModel[] = [];
+  nSearch = false;
 
   ngOnInit(): void {
 
@@ -18,6 +19,10 @@ export class HomeComponent implements OnInit {
 
   setAlbuns(event: AlbumModel[]){
     this.nAlbums = event;
+  }
+
+  setSearch(event: boolean){
+    this.nSearch = event;
   }
 
 }

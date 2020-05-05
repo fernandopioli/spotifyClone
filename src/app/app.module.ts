@@ -8,15 +8,18 @@ import { ShowAlbunsComponent } from './components/show-albuns/show-albuns.compon
 import { SearchComponent } from './components/search/search.component';
 import { AlbumComponent } from './components/album/album.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {JwtInterceptorService} from './services/jwtInterceptor.service';
+import {JwtInterceptorService} from './services/interceptors/jwtInterceptor.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ShowAlbumComponent } from './pages/show-album/show-album.component';
 import {AuthenticationService} from './services/authentication.service';
-import {LoggedInGuard} from './services/loggedIn.guard';
-import {AuthGuard} from './services/auth.guard';
-import {ErrorInterceptor} from './services/ErrorInterceptor.service';
+import {LoggedInGuard} from './services/guards/loggedIn.guard';
+import {AuthGuard} from './services/guards/auth.guard';
+import {ErrorInterceptor} from './services/interceptors/ErrorInterceptor.service';
+import {LoaderInterceptorService} from './services/interceptors/loader-interceptor.service';
+import {LoaderService} from './services/loader.service';
+import { MyLoaderComponent } from './layout/my-loader/my-loader.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import {ErrorInterceptor} from './services/ErrorInterceptor.service';
     AlbumComponent,
     LoginComponent,
     HomeComponent,
-    ShowAlbumComponent
+    ShowAlbumComponent,
+    MyLoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +44,8 @@ import {ErrorInterceptor} from './services/ErrorInterceptor.service';
     AuthenticationService,
     AuthGuard,
     LoggedInGuard,
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
