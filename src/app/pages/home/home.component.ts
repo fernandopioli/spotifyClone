@@ -1,6 +1,4 @@
-import {Component, OnInit, SimpleChanges} from '@angular/core';
-import {AlbumModel} from '../../models/album.model';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -10,19 +8,9 @@ import {HttpClient} from '@angular/common/http';
 export class HomeComponent implements OnInit {
 
   constructor() { }
-  nAlbums: AlbumModel[] = [];
-  nSearch = false;
 
   ngOnInit(): void {
 
-  }
-
-  setAlbuns(event: AlbumModel[]){
-    this.nAlbums = event;
-  }
-
-  setSearch(event: boolean){
-    this.nSearch = event;
   }
 
 }

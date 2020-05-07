@@ -1,9 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {debounceTime} from 'rxjs/operators';
-import {AlbumModel} from '../../models/album.model';
+import {debounceTime, share} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {SearchModelModel} from '../../models/search.model';
+import {AlbumsStore} from '../../services/albumsStore.service';
 
 @Component({
   selector: 'app-search',
@@ -13,27 +13,59 @@ import {SearchModelModel} from '../../models/search.model';
 export class SearchComponent implements OnInit {
 
   myControl = new FormControl();
-  @Output() respostaFamilia: any = new EventEmitter();
-  @Output() nSearch: EventEmitter<boolean> = new EventEmitter();
-  constructor(private http: HttpClient) { }
+  keyword = '';
+  offset = 0;
+  limit = 20;
+  totalItems = 0;
+  scrollLock = false;
+  showInfiniteScroll = true;
+
+  constructor(private http: HttpClient, private albumStore: AlbumsStore) { }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    if (((window.innerHeight + window.scrollY + 1) >=
+      document.body.offsetHeight) || ((window.innerHeight + document.documentElement.scrollTop)
+      >= document.body.offsetHeight)) {
+      if (!this.scrollLock){
+        this.scrollLock = true;
+
+        if (this.offset <= this.totalItems){
+          console.log('rola');
+          this.loadAlbums();
+        }else{
+          console.log('nao tem');
+        }
+
+      }
+    }
+  }
+
+  loadAlbums(){
+    this.http.get(`https://api.spotify.com/v1/search?type=album,track,artist&limit=${this.limit}&offset=${this.offset}&q=${this.keyword}`)
+      .pipe(share())
+      .subscribe(
+        (res: SearchModelModel) => {
+          console.log(res.albums);
+          this.scrollLock = false;
+          this.totalItems = res.albums.total;
+          this.offset = this.offset + this.limit;
+          this.albumStore.add(res.albums.items);
+        },
+        error => {
+          alert('Houve um erro ao carregar os álbuns!');
+        });
+  }
 
   ngOnInit(): void {
     this.myControl.valueChanges
       .pipe(debounceTime(300))
       .subscribe(data => {
+        this.keyword = data;
         if (data !== '') {
-          this.http.get('https://api.spotify.com/v1/search?type=album,track,artist&q=' + data)
-            .subscribe(
-              (res: SearchModelModel) => {
-                this.respostaFamilia.emit(res.albums.items);
-                res.albums.items.length > 0 ? this.nSearch.emit(true) : this.nSearch.emit(false);
-              },
-              error => {
-                alert('Houve um erro ao carregar os álbuns!');
-              });
+          this.loadAlbums();
         }else{
-          this.respostaFamilia.emit([]);
-          this.nSearch.emit(false);
+          this.albumStore.clear();
         }
       }
       );

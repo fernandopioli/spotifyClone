@@ -20,6 +20,7 @@ import {ErrorInterceptor} from './services/interceptors/ErrorInterceptor.service
 import {LoaderInterceptorService} from './services/interceptors/loader-interceptor.service';
 import {LoaderService} from './services/loader.service';
 import { MyLoaderComponent } from './layout/my-loader/my-loader.component';
+import {AlbumsStore} from './services/albumsStore.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MyLoaderComponent } from './layout/my-loader/my-loader.component';
     AuthGuard,
     LoggedInGuard,
     LoaderService,
+    AlbumsStore,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
