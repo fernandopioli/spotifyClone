@@ -1,1 +1,32 @@
-<p>show-album works!</p>
+<app-navbar></app-navbar>
+<div class="row center">
+  <div class="col-12 col-md-10" style="padding: 0">
+
+      <div class="row">
+        <div class="col-12">
+          <a (click)="backClicked()" style="cursor: pointer">< Voltar</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-5 center">
+          <app-album [css]="false" [album]="album"></app-album>
+        </div>
+        <div class="col-12 col-md-7">
+          <div class="row" *ngFor="let track of tracks;">
+            <div class="col-1" style="color:#999999; text-align: left;">
+              {{track.track_number}}
+            </div>
+            <div class="col-10" style="color:#fafafa; text-align: left">
+              {{track.name}}
+            </div>
+            <div class="col-1" style="color:#999999; text-align: right">
+              {{track.duration_ms}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+

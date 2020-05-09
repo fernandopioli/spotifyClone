@@ -9,14 +9,14 @@ export class LoaderService {
   private isLoading: Subject<boolean> = new BehaviorSubject(false);
   constructor() { }
 
-  get loadingState() {
+  get loadingState(): Subject<boolean>  {
     return this.isLoading;
   }
 
-  show() {
+  show(): void {
     this.isLoading.next(true);
   }
-  hide() {
+  hide(): void {
     this.isLoading.next(false);
   }
 

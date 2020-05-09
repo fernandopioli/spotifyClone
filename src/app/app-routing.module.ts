@@ -4,6 +4,8 @@ import {LoginComponent} from './pages/login/login.component';
 import {HomeComponent} from './pages/home/home.component';
 import {LoggedInGuard} from './services/guards/loggedIn.guard';
 import {AuthGuard} from './services/guards/auth.guard';
+import {ShowAlbumComponent} from './pages/show-album/show-album.component';
+import {AlbumResolve} from './services/resolves/album.resolve';
 
 
 const routes: Routes = [
@@ -18,6 +20,14 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'album/:id',
+    canActivate: [AuthGuard],
+    resolve: {
+      album: AlbumResolve
+    },
+    component: ShowAlbumComponent,
+  },
+  {
     path: 'login',
     canActivate: [LoggedInGuard],
     component: LoginComponent,
@@ -29,7 +39,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

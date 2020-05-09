@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy  {
     }
   }
 
-  login(){
+  login(): void{
     if (this.myControl.value !== ''){
       this.loginSub = this.authService.login(this.myControl.value)
         .pipe(first())

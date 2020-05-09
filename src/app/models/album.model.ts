@@ -1,6 +1,7 @@
 export class AlbumModel {
   images: ImagesModel[];
   name: string;
+  id: string;
   artists: ArtistModel[];
 }
 

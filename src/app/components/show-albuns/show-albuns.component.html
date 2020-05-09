@@ -8,12 +8,7 @@
     </div>
 
     <div class="row" style="margin-top: 20px; padding: 0 0 0 7px;">
-        <app-album [album]="album" *ngFor="let album of albuns;"></app-album>
-    </div>
-    <div class="row">
-      <div class="col-12 center">
-        <a href="#" class="carregandoButton">Carregando...</a>
-      </div>
+        <app-album [css]="true" [album]="album" *ngFor="let album of albuns;"></app-album>
     </div>
 
   </div>

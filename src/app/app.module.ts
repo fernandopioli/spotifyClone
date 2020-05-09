@@ -21,6 +21,8 @@ import {LoaderInterceptorService} from './services/interceptors/loader-intercept
 import {LoaderService} from './services/loader.service';
 import { MyLoaderComponent } from './layout/my-loader/my-loader.component';
 import {AlbumsStore} from './services/albumsStore.service';
+import {AlbumResolve} from './services/resolves/album.resolve';
+import {AlbumLocalStorageService} from './services/albumLocalStorage.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import {AlbumsStore} from './services/albumsStore.service';
     LoggedInGuard,
     LoaderService,
     AlbumsStore,
+    AlbumResolve,
+    AlbumLocalStorageService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

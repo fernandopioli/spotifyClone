@@ -15,7 +15,7 @@ export class AlbumsStore {
     this.allAlbunsStore$ = new BehaviorSubject(this.albunsStates);
   }
 
-  get getSearchedKeyword(){
+  get getSearchedKeyword(): string{
     return this.searchedKeyword;
   }
 
@@ -23,19 +23,14 @@ export class AlbumsStore {
     this.searchedKeyword = keyword;
   }
 
-  get getAlbuns() {
+  get getAlbuns(): Subject<AlbumModel[]> {
     return this.allAlbunsStore$;
   }
 
   add(albuns: AlbumModel[]): void {
-    if (albuns.length === 0) {
-      this.clear();
-    }else
-    {
       this.albunsStates = this.albunsStates.concat(albuns);
-     // const newState = Object.assign({}, this.albunsStates);
       this.getAlbuns.next(this.albunsStates);
-    }
+
   }
   clear(): void {
     this.albunsStates = [];

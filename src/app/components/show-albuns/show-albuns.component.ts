@@ -1,7 +1,7 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AlbumsStore} from '../../services/albumsStore.service';
 import {AlbumModel} from '../../models/album.model';
-import {HttpClient} from '@angular/common/http';
+import {AlbumLocalStorageService} from '../../services/albumLocalStorage.service';
 
 @Component({
   selector: 'app-show-albuns',
@@ -13,12 +13,17 @@ export class ShowAlbunsComponent implements OnInit {
   albuns: AlbumModel[] = [];
   title: Title = Title.lastTitle;
 
-  constructor(private albumsStore: AlbumsStore) { }
+  constructor(private albumsStore: AlbumsStore, private albumsLocal: AlbumLocalStorageService) { }
 
   ngOnInit(): void {
     this.albumsStore.getAlbuns.subscribe((data: AlbumModel[]) => {
-      data.length > 0 ? this.title = Title.searchTtile : this.title = Title.lastTitle;
-      this.albuns = data;
+      if (data.length > 0){
+        this.title = Title.searchTtile;
+        this.albuns = data;
+      }else{
+        this.title = Title.lastTitle;
+        this.albuns = this.albumsLocal.getAlbuns;
+      }
     });
   }
 

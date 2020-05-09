@@ -3,12 +3,15 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {UserModel} from '../models/user.model';
 import {map} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+
+  baseUrl = environment.baseUrl;
   private currentUserSubject: BehaviorSubject<UserModel>;
   public currentUser: Observable<UserModel>;
 
@@ -21,9 +24,9 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(token: string) {
+  login(token: string): Observable<any> {
    localStorage.setItem('token', JSON.stringify(token));
-   return this.http.get('https://api.spotify.com/v1/me')
+   return this.http.get(`${this.baseUrl}me`)
       .pipe(
         map((data: UserModel) => {
           localStorage.setItem('currentUser', JSON.stringify(data));
@@ -32,7 +35,7 @@ export class AuthenticationService {
         }));
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);

@@ -4,6 +4,7 @@ import {debounceTime, share} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {SearchModelModel} from '../../models/search.model';
 import {AlbumsStore} from '../../services/albumsStore.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-search',
@@ -13,12 +14,12 @@ import {AlbumsStore} from '../../services/albumsStore.service';
 export class SearchComponent implements OnInit {
 
   myControl = new FormControl();
-  keyword = '';
   offset = 0;
   limit = 20;
   totalItems = 0;
   scrollLock = false;
-  showInfiniteScroll = true;
+  hasNextPage = true;
+  baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient, private albumStore: AlbumsStore) { }
 
@@ -29,27 +30,24 @@ export class SearchComponent implements OnInit {
       >= document.body.offsetHeight)) {
       if (!this.scrollLock){
         this.scrollLock = true;
-
-        if (this.offset <= this.totalItems){
-          console.log('rola');
+        if (this.hasNextPage && this.myControl.value){
           this.loadAlbums();
-        }else{
-          console.log('nao tem');
         }
-
       }
     }
   }
 
-  loadAlbums(){
-    this.http.get(`https://api.spotify.com/v1/search?type=album,track,artist&limit=${this.limit}&offset=${this.offset}&q=${this.keyword}`)
+  loadAlbums(): void{
+    this.http.get(`${this.baseUrl}search?type=album,track,artist&limit=${this.limit}&offset=${this.offset}&q=${this.myControl.value}`)
       .pipe(share())
       .subscribe(
         (res: SearchModelModel) => {
-          console.log(res.albums);
           this.scrollLock = false;
           this.totalItems = res.albums.total;
           this.offset = this.offset + this.limit;
+          if (!res.albums.next){
+            this.hasNextPage = false;
+          }
           this.albumStore.add(res.albums.items);
         },
         error => {
@@ -58,10 +56,18 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.albumStore.getSearchedKeyword){
+      this.myControl.setValue(this.albumStore.getSearchedKeyword);
+    }
     this.myControl.valueChanges
       .pipe(debounceTime(300))
       .subscribe(data => {
-        this.keyword = data;
+        this.albumStore.clear();
+        this.offset = 0;
+        this.totalItems = 0;
+        this.scrollLock = false;
+        this.hasNextPage = true;
+        this.albumStore.setSearchedKeyword = data;
         if (data !== '') {
           this.loadAlbums();
         }else{

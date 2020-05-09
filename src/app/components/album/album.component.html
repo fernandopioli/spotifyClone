@@ -1,14 +1,14 @@
-<div class="col-6-5 col-lg-2-5 album-div" style="padding: 0;margin-right: 18px; margin-bottom: 25px; height: 250px">
+<div class="album-div" [class.col-6-5]="css" [class.col-lg-2-5]="css" style="padding: 0;margin-right: 18px; margin-bottom: 25px; height: 250px">
 
   <div class="row" style="text-align: center; padding: 0 0 0 4px;">
     <div class="col-12" style="padding: 0">
-      <img class="album-image" src="{{album.images[1].url}}">
+      <img class="album-image" (click)="goToAlbum()" style="cursor: pointer" src="{{album.images[1].url}}">
     </div>
-    <div class="col-12 paddingTextAlbum" style="color:#fafafa; margin-top: 7px;">
-      {{album.name}}
+    <div class="col-12 paddingTextAlbum" style="color:#fafafa; margin-top: 7px;cursor: pointer;">
+      <a (click)="goToAlbum()">{{album.name}}</a>
     </div>
-    <div class="col-12 paddingTextAlbum" style="color:#999999; padding-top: 0">
-      {{album.artists[0].name}}
+    <div class="col-12 paddingTextAlbum" style="color:#999999; padding-top: 0;cursor: pointer;">
+      <a (click)="goToAlbum()">{{album.artists[0].name}}</a>
     </div>
   </div>
 </div>
